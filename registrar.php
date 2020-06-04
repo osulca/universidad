@@ -38,9 +38,9 @@ if (isset($_POST["submit"])) {
     include_once "clases/Estudiante.php";
     $estudiante = new Estudiante($codigo, $nombres, $apellidos, $telefono, $correo, $id_pa);
     if ($estudiante->crearEstudiante()) {
-        echo "si";
+        echo "Datos guardados";
     } else {
-        echo "no";
+        echo "Error: Los datos no se guardaron";
     }
 
 }
