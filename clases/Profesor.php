@@ -1,7 +1,6 @@
 <?php
-
-
-class Profesor
+namespace Clases;
+class Profesor extends Usuario
 {
-
+    private $dni;
 }

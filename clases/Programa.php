@@ -1,16 +1,13 @@
 <?php
+namespace Clases;
 
+use db\ConexionDB as db;
+require_once "ConexionDB.php";
 
 class Programa
 {
     private $nombre;
     private $id_facultad;
-
-    public function __construct($nombre, $id_facultad)
-    {
-        $this->nombre = $nombre;
-        $this->id_facultad = $id_facultad;
-    }
 
     public function getNombre():string
     {
@@ -32,4 +29,21 @@ class Programa
         $this->id_facultad = $id_facultad;
     }
 
+    public function verProgramas() {
+        try {
+            $db = new db();
+            $conn = $db->abrirConexion();
+
+            $sql = "SELECT * FROM pa";
+            $respuesta = $conn->prepare($sql);
+            $respuesta->execute();
+            $result = $respuesta->fetchAll();
+
+            $db->cerrarConexion();
+            return $result;
+        }
+        catch (PDOException $e){
+            echo $e->getMessage();
+        }
+    }
 }

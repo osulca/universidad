@@ -1,19 +1,21 @@
 <?php
-use bd\ConexionDB as db;
+namespace Clases;
 
 class Usuario
 {
-    private $nombres;
-    private $apellidos;
-    private $telefono;
-    private $correo;
+    protected $nombres;
+    protected $apellidos;
+    protected $telefono;
+    protected $correo;
+    protected $id_pa;
 
-    public function __construct($nombres, $apellidos, $telefono, $correo)
+    public function __construct($nombres, $apellidos, $telefono, $correo, $id_pa)
     {
         $this->nombres = $nombres;
         $this->apellidos = $apellidos;
         $this->telefono = $telefono;
         $this->correo = $correo;
+        $this->id_pa = $id_pa;
     }
 
     // getter y setters
@@ -37,8 +39,7 @@ class Usuario
         $this->apellidos = $apellidos;
     }
 
-    // TODO: determinar tipo de dato de retorno
-    public function getTelefono(): int
+    public function getTelefono(): string
     {
         return $this->telefono;
     }
@@ -58,30 +59,15 @@ class Usuario
         $this->correo = $correo;
     }
 
-    // métodos de bd
-    public function crearUsuario() : bool {
-        $result = false;
-        try {
-            $db = new db();
-            $conn = $db->cerrarConexion();
-
-            //TODO: modificar funcion de forma que al heredar permita ejecutar el metodo sin repetir el codigo
-            $sql = "INSERT INTO estudiantes(codigo, nombres, apellidos, telefono, correo, id_pa) VALUES('$this->codigo','$this->nombres', '$this->apellidos', '$this->telefono', '$this->correo', 1)";
-            $respuesta = $conn->prepare($sql);
-            $respuesta->execute();
-            $numRows = $respuesta->rowCount();
-            if($numRows!=0){
-                $result = true;
-            }else{
-                $result = false;
-            }
-
-            $db->cerrarConexion();
-
-            return $result;
-        }
-        catch (PDOException $e){
-            echo $e->getMessage();
-        }
+    public function getIdPa(): int
+    {
+        return $this->id_pa;
     }
+
+    public function setIdPa($id_pa): void
+    {
+        $this->id_pa = $id_pa;
+    }
+
+
 }
