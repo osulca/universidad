@@ -1,5 +1,5 @@
 <?php
-
+namespace Clases;
 
 class Facultad
 {

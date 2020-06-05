@@ -1,9 +1,8 @@
 <?php
 namespace Clases;
-use db\ConexionDB as db;
+use Clases\ConexionDB as db;
 
-require_once "Usuario.php";
-require_once "ConexionDB.php";
+require_once "config/autoload.php";
 
 class Estudiante extends Usuario
 {

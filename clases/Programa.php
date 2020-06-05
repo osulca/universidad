@@ -1,8 +1,8 @@
 <?php
 namespace Clases;
+use Clases\ConexionDB as db;
 
-use db\ConexionDB as db;
-require_once "ConexionDB.php";
+require_once "config/autoload.php";
 
 class Programa
 {

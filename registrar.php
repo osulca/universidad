@@ -2,8 +2,7 @@
 use Clases\Estudiante;
 use Clases\Programa;
 
-include_once "clases/Programa.php";
-
+include_once "config/autoload.php";
 include_once "menu.php";
 ?>
     <h1>Registrar Estudiantes</h1>
@@ -35,7 +34,6 @@ if (isset($_POST["submit"])) {
     $correo = $_POST["correo"];
     $id_pa = $_POST["id_pa"];
 
-    include_once "clases/Estudiante.php";
     $estudiante = new Estudiante($codigo, $nombres, $apellidos, $telefono, $correo, $id_pa);
     if ($estudiante->crearEstudiante()) {
         echo "Datos guardados";

@@ -1,5 +1,5 @@
 <?php
-namespace db;
+namespace Clases;
 
 class ConexionDB {
     private $dsn = "mysql:host=localhost;dbname=udh";
