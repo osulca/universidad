@@ -1,34 +1,24 @@
 <?php
-include_once "menu.php";
-session_start();
-echo "Bienvenido: ".$_SESSION["nombres"];
-?>
-<table border="1">
-    <tr>
-        <th>&nbsp;</th>
-        <th>Nombres</th>
-        <th>Apellidos</th>
-        <th>Programa</th>
-        <th colspan="2">&nbsp;</th>
-    </tr>
-    <!-- TODO: cargar datos de los estudiantes -->
-    <tr>
-        <td>1</td>
-        <td>Nombre</td>
-        <td>Apellidos</td>
-        <td>Nombre Programa</td>
-        <td><a href="actualizar.php?id=1">Actualizar</a></td>
-        <td><a href="eliminar.php?id=1">Eliminar</a></td>
-    </tr>
-</table>
-<?php
-/*    session_start();
-    $_SESSION["id"] = 1;
-    $_SESSION["apellidos"]="Sulca";
-    session_unset();
-    session_destroy();
+Use Clases\Usuario as Usuario;
 
-    setcookie("userid",2,time()+3600);
-    setcookie("userid",2,time()-6600);
-    echo $_COOKIE["userid"];
-*/
+include_once "config/autoload.php";
+?>
+    <form action="#" method="post">
+        <input type="text" name="usuario" placeholder="Ingrese Usuario"></br>
+        <input type="password" name="pass" placeholder="Ingrese Contraseña"></br>
+        <input type="submit" name="submit" value="Login">
+    </form>
+<?php
+if (isset($_POST["submit"])) {
+    $usuario = $_POST["usuario"];
+    $pass = $_POST["pass"];
+
+    $user = new Usuario();
+    $login = $user->login($usuario, $pass);
+
+    if ($login) {
+        header("Location: bienvenido.php");
+    } else {
+        echo "usuario o contraseña incorrecto";
+    }
+}

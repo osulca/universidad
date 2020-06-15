@@ -1,73 +1,119 @@
 <?php
+
 namespace Clases;
+
+use Clases\ConexionDB as db;
+use Clases\Estudiante as Estudiante;
+
+require_once "config/autoload.php";
 
 class Usuario
 {
-    protected $nombres;
-    protected $apellidos;
-    protected $telefono;
-    protected $correo;
-    protected $id_pa;
+    private $usuario;
+    private $password;
+    private $tipo;
+    private $id_estudiante;
 
-    public function __construct($nombres, $apellidos, $telefono, $correo, $id_pa)
+    public function getUsuario()
     {
-        $this->nombres = $nombres;
-        $this->apellidos = $apellidos;
-        $this->telefono = $telefono;
-        $this->correo = $correo;
-        $this->id_pa = $id_pa;
+        return $this->usuario;
     }
 
-    // getter y setters
-    public function getNombres(): string
+    public function setUsuario($usuario): void
     {
-        return $this->nombres;
+        $this->usuario = $usuario;
     }
 
-    public function setNombres($nombres): void
+    public function getPassword()
     {
-        $this->nombres = $nombres;
+        return $this->password;
     }
 
-    public function getApellidos(): string
+    public function setPassword($password): void
     {
-        return $this->apellidos;
+        $this->password = $password;
     }
 
-    public function setApellidos($apellidos): void
+    public function getTipo()
     {
-        $this->apellidos = $apellidos;
+        return $this->tipo;
     }
 
-    public function getTelefono(): string
+    public function setTipo($tipo): void
     {
-        return $this->telefono;
+        $this->tipo = $tipo;
     }
 
-    public function setTelefono($telefono): void
+    public function getIdEstudiante()
     {
-        $this->telefono = $telefono;
+        return $this->id_estudiante;
     }
 
-    public function getCorreo(): string
+    public function setIdEstudiante($id_estudiante): void
     {
-        return $this->correo;
+        $this->id_estudiante = $id_estudiante;
     }
 
-    public function setCorreo($correo): void
+    public function getDataLogin($usuario)
     {
-        $this->correo = $correo;
+        $resultados = null;
+        try {
+            $db = new db();
+            $conn = $db->abrirConexion();
+
+            $sql = "SELECT * FROM usuarios WHERE usuario = '$usuario'";
+            $respuesta = $conn->prepare($sql);
+            $respuesta->execute();
+            $resultados = $respuesta->fetchAll();
+
+            $db->cerrarConexion();
+
+        } catch (Exception $e) {
+            echo $e->getMessage();
+        }
+
+        return $resultados;
     }
 
-    public function getIdPa(): int
+    public function login($usuario, $password): bool
     {
-        return $this->id_pa;
+        $resultados = $this->getDataLogin($usuario);
+
+        // TODO: validar si devuelve resultados o no
+        foreach ($resultados as $item) {
+            $usuario_BD = $item["usuario"];
+            $pass_BD = $item["pass"];
+            $tipo = $item["tipo"];
+            // se hacia referencia al id de usuario, no al de estudiante
+            $id = $item["id_tabla"];
+        }
+
+        if ($usuario_BD == $usuario) {
+            if ($pass_BD == $password) {
+                // la tabla estaba mal nombrada
+                $estudiante = new Estudiante();
+                $resultados = $estudiante->getDataEstudiantePorId($id);
+                foreach ($resultados as $item) {
+                    $id_estudiante = $id;
+                    $nombres = $item["nombres"];
+                    $apellidos = $item["apellidos"];
+                    $codigo = $item["codigo"];
+                }
+                // corregida valores erroneos
+                session_start();
+                $_SESSION["id"] = $id_estudiante;
+                $_SESSION["nombres"] = $nombres . " " . $apellidos;
+                $_SESSION["codigo"] = $codigo;
+                $_SESSION["tipo"] = $tipo;
+                $resultado = true;
+
+            } else {
+                // si no coincide, enviar mensaje
+                $resultado = false;
+            }
+        } else {
+            $resultado = false;
+        }
+        return $resultado;
     }
-
-    public function setIdPa($id_pa): void
-    {
-        $this->id_pa = $id_pa;
-    }
-
-
 }

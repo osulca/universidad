@@ -1,6 +1,11 @@
 <?php
-use Clases\Estudiante;
-use Clases\Programa;
+use Clases\Estudiante as Estudiante;
+use Clases\Programa as Programa;
+
+session_start();
+if($_SESSION["id"]==null){
+    header("Location: index.php");
+}
 
 include_once "config/autoload.php";
 include_once "menu.php";
@@ -34,11 +39,17 @@ if (isset($_POST["submit"])) {
     $correo = $_POST["correo"];
     $id_pa = $_POST["id_pa"];
 
-    $estudiante = new Estudiante($codigo, $nombres, $apellidos, $telefono, $correo, $id_pa);
+    $estudiante = new Estudiante();
+    $estudiante->setCodigo($codigo);
+    $estudiante->setNombres($nombres);
+    $estudiante->setApellidos($apellidos);
+    $estudiante->setTelefono($telefono);
+    $estudiante->setCorreo($codigo);
+    $estudiante->setIdPa($id_pa);
+
     if ($estudiante->crearEstudiante()) {
         echo "Datos guardados";
     } else {
         echo "Error: Los datos no se guardaron";
     }
-
 }

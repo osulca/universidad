@@ -1,11 +1,10 @@
 <?php
-session_start();
 $tipo_usuario = $_SESSION["tipo"];
 
 if ($tipo_usuario == "estudiante") {
     ?>
     <ul>
-        <li><a href="index.php">Inicio</a></li>
+        <li><a href="bienvenido.php">Inicio</a></li>
     </ul>
     <?php
 } else {
@@ -17,3 +16,5 @@ if ($tipo_usuario == "estudiante") {
     </ul>
     <?php
 }
+?>
+<li><a href="salir.php">Salir</a></li>
