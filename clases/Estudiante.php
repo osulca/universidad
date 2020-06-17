@@ -98,6 +98,25 @@ class Estudiante
         }
     }
 
+    public function getDataEstudiantes(){
+        $resultados = null;
+        try {
+            $db = new db();
+            $conn = $db->abrirConexion();
+
+            $sql = "SELECT id, nombres, apellidos FROM estudiantes";
+            $respuesta = $conn->prepare($sql);
+            $respuesta->execute();
+            $resultados = $respuesta->fetchAll();
+
+            $db->cerrarConexion();
+
+        } catch (Exception $e) {
+            echo $e->getMessage();
+        }
+        return $resultados;
+    }
+
     public function getDataEstudiantePorId($id){
         $resultados = null;
         try {

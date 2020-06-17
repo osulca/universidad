@@ -89,7 +89,7 @@ class Usuario
         }
 
         if ($usuario_BD == $usuario) {
-            if ($pass_BD == $password) {
+            if (password_verify($password, $pass_BD)==true) {
                 // la tabla estaba mal nombrada
                 $estudiante = new Estudiante();
                 $resultados = $estudiante->getDataEstudiantePorId($id);
@@ -115,5 +115,30 @@ class Usuario
             $resultado = false;
         }
         return $resultado;
+    }
+
+    public function crearUsuario(): bool
+    {
+        try {
+            $db = new db();
+            $conn = $db->abrirConexion();
+
+            $sql = "INSERT INTO usuarios(usuario, pass, tipo, id_tabla) 
+                    VALUES('$this->usuario','$this->password', '$this->tipo', $this->id_estudiante)";
+            $respuesta = $conn->prepare($sql);
+            $respuesta->execute();
+            $numRows = $respuesta->rowCount();
+            if ($numRows != 0) {
+                $result = true;
+            } else {
+                $result = false;
+            }
+
+            $db->cerrarConexion();
+
+            return $result;
+        } catch (PDOException $e) {
+            echo $e->getMessage();
+        }
     }
 }
