@@ -8,16 +8,18 @@ if($_SESSION["id"]==null){
 }
 
 include_once "config/autoload.php";
+include_once "layout/header.php";
 include_once "menu.php";
 ?>
-    <h1>Registrar Estudiantes</h1>
+    <h1 class="mt-4">Registrar Estudiantes</h1>
     <form method="post" action="#">
-        <input type="text" name="codigo" placeholder="Codigo" required/><br>
-        <input type="text" name="nombres" placeholder="Nombres" required/><br>
-        <input type="text" name="apellidos" placeholder="Apellidos" required/><br>
-        <input type="text" name="telefono" placeholder="Telefono"/><br>
-        <input type="email" name="correo" placeholder="Email"/><br>
-        <select name="id_pa">
+        <div class="form-group" style="width: 400px">
+        <input class="form-control" type="text" name="codigo" placeholder="Codigo" required/><br>
+        <input class="form-control" type="text" name="nombres" placeholder="Nombres" required/><br>
+        <input class="form-control" type="text" name="apellidos" placeholder="Apellidos" required/><br>
+        <input class="form-control" type="text" name="telefono" placeholder="Telefono"/><br>
+        <input class="form-control" type="email" name="correo" placeholder="Email"/><br>
+        <select class="form-control" name="id_pa">
             <?php
             $programa = new Programa();
             $programas = $programa->verProgramas();
@@ -25,8 +27,9 @@ include_once "menu.php";
                 echo "<option value='" . $programa["id"] . "'>" . $programa["nombre"] . "</option>";
             }
             ?>
-        </select><br/>
-        <input type="submit" name="submit" value="Guardar">
+        </select>
+        </div>
+        <input type="submit" class="btn btn-info" name="submit" value="Guardar">
 
     </form>
 
@@ -53,3 +56,4 @@ if (isset($_POST["submit"])) {
         echo "Error: Los datos no se guardaron";
     }
 }
+include_once "layout/footer.php";
